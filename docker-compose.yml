@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - 8080:8080
+    volumes:
+      - node_modules:/usr/src/app/node_modules
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root-password
+      - MYSQL_USER_FILE=/run/secrets/mysql-user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql-password
+      - MYSQL_DATABASE_FILE=/run/secrets/mysql-database
+    secrets:
+      - mysql-root-password
+      - mysql-user
+      - mysql-password
+      - mysql-database
+    volumes:
+      - db:/data/db
+
+secrets:
+  mysql-root-password:
+    file: secrets/mysql-root-password
+  mysql-user:
+    file: secrets/mysql-user
+  mysql-password:
+    file: secrets/mysql-password
+  mysql-database:
+    file: secrets/mysql-database
+
+volumes:
+  db:
+  node_modules:
