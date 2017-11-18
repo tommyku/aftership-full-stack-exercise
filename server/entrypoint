@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+# $0 is a script name,
+# $1, $2, $3 etc are passed arguments
+# $1 is our command
+CMD=$1
+
+export MYSQL_USERNAME=$(cat /run/secrets/mysql-user)
+export MYSQL_PASSWORD=$(cat /run/secrets/mysql-password)
+export MYSQL_DATABASE=$(cat /run/secrets/mysql-database)
+
+case "$CMD" in
+  'run' )
+    if [ "$NODE_ENV" = "development" ]
+    then
+      npm install && npm run dev
+    else
+      npm install && npm run start
+    fi
+    ;;
+  'lint' )
+    npm install && ./node_modules/.bin/eslint .
+    ;;
+  'test' )
+    echo "not implemented"
+    ;;
+  'docs' )
+    echo "not implemented"
+    ;;
+   * )
+    # Run custom command. Thanks to this line we can still use
+    # "docker run our_image /bin/bash" and it will work
+    exec "$@"
+    ;;
+esac

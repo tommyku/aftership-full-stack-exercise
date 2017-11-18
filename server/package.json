@@ -13,10 +13,12 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "sequelize": "^4.22.8"
   },
   "devDependencies": {
     "eslint": "^4.11.0",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "sequelize-cli": "^3.1.0"
   }
 }

@@ -6,14 +6,14 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Logging requests to STDOUT
-app.use(logger('dev'));
+app.use(logger('common'));
 
 // Parse incoming data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.send('Wrong castle');
+  res.send(JSON.stringify(process.env));
 });
 
-app.listen(3000, () => console.log('Server running'));
+app.listen(8080, () => console.log('Server running'));
