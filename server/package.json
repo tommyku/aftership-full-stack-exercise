@@ -3,12 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "template": {
+    "forceLanguage": "en"
+  },
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint .",
+    "docs": "apidoc -e \"(node_modules|public)\" -o public/apidoc"
+  },
+  "apidoc": {
+    "name": "AfterShip full-stack exercise API",
+    "title": "AfterShip full-stack exercise API documentation"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tommy Ku <ckku@outlook.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -17,6 +26,7 @@
     "sequelize": "^4.22.8"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
     "eslint": "^4.11.0",
     "nodemon": "^1.12.1",
     "sequelize-cli": "^3.1.0"

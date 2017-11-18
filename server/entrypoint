@@ -8,22 +8,24 @@ export MYSQL_USERNAME=$(cat /run/secrets/mysql-user)
 export MYSQL_PASSWORD=$(cat /run/secrets/mysql-password)
 export MYSQL_DATABASE=$(cat /run/secrets/mysql-database)
 
+npm install
+
 case "$CMD" in
   'run' )
     if [ "$NODE_ENV" = "development" ]
     then
-      npm install && npm run dev
+      npm run dev
     else
-      npm install && npm run start
+      npm run start
     fi
     ;;
   'lint' )
-    npm install && ./node_modules/.bin/eslint .
-    ;;
-  'test' )
-    echo "not implemented"
+    npm run lint
     ;;
   'docs' )
+    npm run docs
+    ;;
+  'test' )
     echo "not implemented"
     ;;
    * )
