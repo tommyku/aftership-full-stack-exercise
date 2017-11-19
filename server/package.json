@@ -10,6 +10,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "lint": "eslint .",
+    "test": "mocha './test/**/*.spec.js' --exit",
     "docs": "apidoc -e \"(node_modules|public)\" -o public/apidoc"
   },
   "apidoc": {
@@ -31,7 +32,10 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "eslint": "^4.11.0",
+    "mocha": "^4.0.1",
     "nodemon": "^1.12.1",
     "sequelize-cli": "^3.1.0"
   }
