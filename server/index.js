@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('./config/logger.js');
 // Controllers
 const homeController = require('./controllers/home.js');
+const userController = require('./controllers/user.js');
 
 // Create express app
 const app = express();
@@ -21,5 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Register controllers
 app.use('/', homeController);
+app.use('/user', userController);
 
 app.listen(8080, () => console.log('Server running'));
