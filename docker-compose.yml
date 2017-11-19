@@ -7,6 +7,7 @@ services:
       - mysql-user
       - mysql-password
       - mysql-database
+      - jwt-secret
     ports:
       - 8080:8080
     volumes:
@@ -51,6 +52,8 @@ secrets:
     file: secrets/mysql-password
   mysql-database:
     file: secrets/mysql-database
+  jwt-secret:
+    file: secrets/jwt-secret
 
 volumes:
   db:

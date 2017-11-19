@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
@@ -67,7 +68,10 @@ router.post('/sign_up', [
         appId: userData.appId
       }).then(() => {
         return res.status(200)
-          .json({ success: { username: userData.username } });
+          .json({ success: {
+            username: userData.username,
+            token: jwt.sign({ username: userData.username }, process.env.JWT_SECRET, { expiresIn: 1440 })
+          }});
       });
     });
 });

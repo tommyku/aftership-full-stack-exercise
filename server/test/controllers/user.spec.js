@@ -22,6 +22,7 @@ describe('User', () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.success.username).to.equal(userData.username);
+          expect(res.body.success.token).not.to.be.empty;
           done();
         });
     });

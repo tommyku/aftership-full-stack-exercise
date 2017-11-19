@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true,
   });
   User.associate = (models) => {
-    User.hasMany(models.Session, { foreignKey: 'userId' });
     User.belongsToMany(models.Currency, { through: 'UserCurrencies' });
   };
   return User;
