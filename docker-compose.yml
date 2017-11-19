@@ -7,6 +7,7 @@ services:
       - mysql-user
       - mysql-password
       - mysql-database
+      - google-geocoding
     ports:
       - 8080:8080
     volumes:
@@ -51,6 +52,8 @@ secrets:
     file: secrets/mysql-password
   mysql-database:
     file: secrets/mysql-database
+  google-geocoding:
+    file: secrets/google-geocoding
 
 volumes:
   db:

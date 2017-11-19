@@ -7,6 +7,7 @@ CMD=$1
 export MYSQL_USERNAME=$(cat /run/secrets/mysql-user)
 export MYSQL_PASSWORD=$(cat /run/secrets/mysql-password)
 export MYSQL_DATABASE=$(cat /run/secrets/mysql-database)
+export GOOGLE_GEOCODING_KEY=$(cat /run/secrets/google-geocoding)
 
 npm install
 
