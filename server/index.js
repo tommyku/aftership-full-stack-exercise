@@ -1,7 +1,8 @@
 // Dependencies
 const express = require('express');
-const logger = require('morgan');
 const bodyParser = require('body-parser');
+// Configurations
+const logger = require('./config/logger.js');
 // Controllers
 const homeController = require('./controllers/home.js');
 
@@ -9,7 +10,7 @@ const homeController = require('./controllers/home.js');
 const app = express();
 
 // Logging requests to STDOUT
-app.use(logger('common'));
+app.use(logger());
 
 // Folder to serve static files
 app.use(express.static('public'));
