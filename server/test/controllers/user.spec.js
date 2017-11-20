@@ -3,6 +3,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const bcrypt = require('bcrypt');
+const clientConfig = require('../../config/client.js');
 const { app } = require('../test_helper');
 const { User } = require('../test_helper').model;
 
@@ -10,6 +11,22 @@ chai.use(chaiHttp);
 
 describe('User', () => {
   describe('/user/sign_up', () => {
+    it('responds with CORS header', function(done) {
+      const userData = {
+        username: (new Date()).getTime(),
+        password: 'password',
+        appId: '123'
+      };
+
+      chai.request(app)
+        .post('/user/sign_up')
+        .send(userData)
+        .end((err, res) => {
+          expect(res.headers['access-control-allow-origin']).to.equal(clientConfig.clientURL);
+          done();
+        });
+    });
+
     it('responds with status 200', function(done) {
       const userData = {
         username: (new Date()).getTime(),

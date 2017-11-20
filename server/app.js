@@ -1,8 +1,10 @@
 // Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 // Configurations
 const logger = require('./config/logger.js');
+const clientConfig = require('./config/client.js');
 // Controllers
 const homeController = require('./controllers/home.js');
 const userController = require('./controllers/user.js');
@@ -18,6 +20,9 @@ if (process.env.NODE_ENV !== 'test') {
 
 // Folder to serve static files
 app.use(express.static('public'));
+
+// CORS
+app.use(cors({ origin: clientConfig.clientURL }));
 
 // Parse incoming data
 app.use(bodyParser.json());
