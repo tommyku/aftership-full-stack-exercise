@@ -6,6 +6,7 @@ const logger = require('./config/logger.js');
 // Controllers
 const homeController = require('./controllers/home.js');
 const userController = require('./controllers/user.js');
+const usercurrencyController = require('./controllers/usercurrency.js');
 
 // Create express app
 const app = express();
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Register controllers
 app.use('/', homeController);
 app.use('/user', userController);
+app.use('/usercurrency', usercurrencyController);
 
 // Fallback to apidoc if all others fail
 app.get('*', (req, res) => {
