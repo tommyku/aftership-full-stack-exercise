@@ -6,8 +6,12 @@ const { matchedData } = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 const User = require('../models').User;
 
+const userToken = (username) => {
+  return jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: 1440 });
+};
+
 /**
- * @api {post} /sign_up Sign up as a user
+ * @api {post} /user/sign_up Sign up as a user
  * @apiGroup User
  * @apiParamExample {json} Request Example:
  *   {
@@ -20,7 +24,8 @@ const User = require('../models').User;
  *     {
  *       "success": {
  *         "username": "username"
- *         "appId": "1234"
+ *         "appId": "1234",
+ *         "token": "1234"
  *       }
  *     }
  * @apiErrorExample {json} Invalid Parameter
@@ -61,7 +66,7 @@ router.post('/sign_up', [
         return res.status(409)
           .json({ errors: { username: { msg: 'exists' } }});
       }
-      const passwordDigest = bcrypt.hashSync(userData.password, 8);
+      const passwordDigest = bcrypt.hashSync(userData.password, 10);
       User.create({
         username: userData.username,
         passwordDigest: passwordDigest,
@@ -70,17 +75,75 @@ router.post('/sign_up', [
         return res.status(200)
           .json({ success: {
             username: userData.username,
-            token: jwt.sign({ username: userData.username }, process.env.JWT_SECRET, { expiresIn: 1440 })
+            appId: userData.appId,
+            token: userToken(userData.username)
           }});
       });
     });
 });
 
+/**
+ * @api {post} /user/sign_in Sign in as a user
+ * @apiGroup User
+ * @apiParamExample {json} Request Example:
+ *   {
+ *     "username": "username",
+ *     "password": "password"
+ *   }
+ * @apiSuccessExample {json} Success
+ *     HTTP/1.1 200 Success
+ *     {
+ *       "success": {
+ *         "username": "username"
+ *         "appId": "1234",
+ *         "token": "1234"
+ *       }
+ *     }
+ * @apiErrorExample {json} Invalid Parameter
+ *     HTTP/1.1 422 Unprocessable Entity
+ *     {
+ *       "errors": {
+ *         "appId": {
+ *           "location": "body",
+ *           "param": "password",
+ *           "msg": "Invalid value"
+ *         }
+ *       }
+ *     }
+ * @apiErrorExample {json} User Existed
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "errors": {
+ *         "password": {
+ *           "msg": "is invalid"
+ *         }
+ *       }
+ *     }
+ **/
 router.post('/sign_in', [
-  check('username').exists(),
-  check('password').exists()
+  check('username').exists().isLength({ min: 1 }),
+  check('password').exists().isLength({ min: 8 })
 ], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.mapped() });
+  }
+
+  const userData = matchedData(req);
+  User.findOne({ where: { username: userData.username }})
+    .then((user) => {
+      if (user && bcrypt.compareSync(userData.password, user.passwordDigest)) {
+        return res.status(200)
+          .json({ success: {
+            username: userData.username,
+            appId: user.appId,
+            token: userToken(userData.username)
+          }});
+      } else {
+        return res.status(401)
+          .json({ errors: { password: { msg: 'is invalid' }}});
+      }
+    });
 });
 
 module.exports = router;
-
