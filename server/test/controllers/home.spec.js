@@ -9,12 +9,12 @@ chai.use(chaiHttp);
 
 describe('Home', () => {
   describe('/', () => {
-    it('responds with status 301', function(done) {
+    it('responds with status 302', function(done) {
       chai.request(app)
         .get('/')
         .redirects(0)
         .end((err, res) => {
-          expect(res).to.have.status(301);
+          expect(res).to.have.status(302);
           expect(res).to.redirectTo(clientConfig.clientURL);
           done();
         });

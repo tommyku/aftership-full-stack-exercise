@@ -26,4 +26,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', homeController);
 app.use('/user', userController);
 
+// Fallback to apidoc if all others fail
+app.get('*', (req, res) => {
+  res.redirect(404, './apidoc');
+});
+
 module.exports = app;
