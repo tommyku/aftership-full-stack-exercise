@@ -2,7 +2,6 @@
 const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
-const bcrypt = require('bcrypt');
 const { app, jwtSign } = require('../test_helper');
 const { User, UserCurrency, Currency } = require('../test_helper').model;
 

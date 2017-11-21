@@ -4,13 +4,13 @@ const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const bcrypt = require('bcrypt');
 const clientConfig = require('../../config/client.js');
-const { app } = require('../test_helper');
+const { app, jwtSign } = require('../test_helper');
 const { User } = require('../test_helper').model;
 
 chai.use(chaiHttp);
 
 describe('User', () => {
-  describe('/user/sign_up', () => {
+  describe('post /user/sign_up', () => {
     it('responds with CORS header', function(done) {
       const userData = {
         username: (new Date()).getTime(),
@@ -82,7 +82,7 @@ describe('User', () => {
     });
   });
 
-  describe('/user/sign_in', () => {
+  describe('post /user/sign_in', () => {
     it('responds with status 200', function(done) {
       const userData = {
         username: (new Date()).getTime(),
@@ -148,6 +148,32 @@ describe('User', () => {
             done();
           });
       });
+    });
+  });
+
+  describe('get /', () => {
+    it('responsd with status 200', (done) => {
+      const userData = {
+        username: (new Date()).getTime().toString(),
+        passwordDigest: '',
+        appId: ''
+      };
+
+      const originalToken = jwtSign(userData.username);
+
+      User.create(userData)
+        .then(() => {
+          chai.request(app)
+            .get('/user')
+            .set('x-access-token', originalToken)
+            .end((err, res) => {
+              expect(res).to.have.status(200);
+              expect(res.body.success.username).to.equal(userData.username);
+              expect(res.body.success.appId).to.equal(userData.appId);
+              expect(res.body.success.token).not.to.equal(null);
+              done();
+            });
+        });
     });
   });
 });

@@ -146,4 +146,15 @@ router.post('/sign_in', [
     });
 });
 
+router.get('/', require('../middlewares/jwt'), (req, res) => {
+  const user = req.user;
+  // issue new token if auth is successful
+  return res.status(200)
+    .json({ success: {
+      username: user.username,
+      appId: user.appId,
+      token: userToken(user.username)
+    }});
+});
+
 module.exports = router;
