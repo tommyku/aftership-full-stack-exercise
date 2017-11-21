@@ -22,7 +22,11 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(express.static('public'));
 
 // CORS
-app.use(cors({ origin: clientConfig.clientURL }));
+const origins = [clientConfig.clientURL];
+if (process.env.NODE_ENV === 'development') {
+  origins.push('http://localhost:3000');
+}
+app.use(cors({ origin: origins }));
 
 // Parse incoming data
 app.use(bodyParser.json());
