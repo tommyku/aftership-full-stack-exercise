@@ -21,7 +21,9 @@ router.get('/', (req, res) => {
 router.post('/', [
   check('code').exists().isLength(3)
 ], (req, res) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req).formatWith(({ location, msg, param, nestedErrors }) => (
+    { location, msg, param, nestedErrors })
+  );
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.mapped() });
   }
@@ -57,6 +59,13 @@ router.post('/', [
 router.delete('/', [
   check('code').exists().isLength(3)
 ], (req, res) => {
+  const errors = validationResult(req).formatWith(({ location, msg, param, nestedErrors }) => (
+    { location, msg, param, nestedErrors })
+  );
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.mapped() });
+  }
+
   const user = req.user;
   const code = matchedData(req).code;
 

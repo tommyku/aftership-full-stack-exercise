@@ -54,7 +54,9 @@ router.post('/sign_up', [
   check('password').exists().isLength({ min: 8 }),
   check('appId').exists()
 ], (req, res) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req).formatWith(({ location, msg, param, nestedErrors }) => (
+    { location, msg, param, nestedErrors })
+  );
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.mapped() });
   }
@@ -124,7 +126,9 @@ router.post('/sign_in', [
   check('username').exists().isLength({ min: 1 }),
   check('password').exists().isLength({ min: 8 })
 ], (req, res) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req).formatWith(({ location, msg, param, nestedErrors }) => (
+    { location, msg, param, nestedErrors })
+  );
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.mapped() });
   }
