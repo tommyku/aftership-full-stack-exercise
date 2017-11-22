@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  server:
+    environment:
+      - NODE_ENV=production
+      - MYSQL_HOST=db
+      - VIRTUAL_HOST=converty.ck2ustudio.com
+      - LETSENCRYPT_HOST=converty.ck2ustudio.com
+      - LETSENCRYPT_EMAIL=dontcare@ck2ustudio.com
+    restart: unless-stopped
+    depends_on:
+      - db
