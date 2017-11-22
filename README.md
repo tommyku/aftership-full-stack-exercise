@@ -98,7 +98,7 @@ To run database migrations:
 
 ~~~bash
 (host)$ docker-compose -f docker-compose.yml -f local.yml run server /bin/ash
-(server)$ ./node_modules/.bin/sequelize db:migrate:all
+(server)$ ./node_modules/.bin/sequelize db:migrate
 (server)$ ./node_modules/.bin/sequelize db:seed:all
 # Ctrl-D
 (host)$
@@ -156,7 +156,7 @@ For example, using
 (host)$ docker-compose build # or upload your locally-built image using sftp/scp
 (host)$ docker-compose -f docker-compose.yml -f production.yml run server /bin/ash
 (server)$ npm install bcrypt --build-from-source
-(server)$ ./node_modules/.bin/sequelize db:migrate:all
+(server)$ ./node_modules/.bin/sequelize db:migrate
 (server)$ ./node_modules/.bin/sequelize db:seed:all
 # Ctrl-D
 (host)$ docker-compose -f docker-compose.yml -f production.yml up -d
@@ -169,7 +169,7 @@ To run integration tests:
 ~~~bash
 (host)$ docker-compose -f docker-compose.yml -f test.yml run server /bin/ash
 (server)$ npm install bcrypt --build-from-source
-(server)$ ./node_modules/.bin/sequelize db:migrate:all
+(server)$ ./node_modules/.bin/sequelize db:migrate
 (server)$ ./node_modules/.bin/sequelize db:seed:all
 # Ctrl-D
 (host)$ docker-compose -f docker-compose.yml -f test.yml run server test
