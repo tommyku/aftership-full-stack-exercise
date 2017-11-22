@@ -24,6 +24,24 @@ API backend for AfterShip full-stack exercise for a currency converter.
 - [ ] Workaround/fix bcrypt segmentation fault
 - [ ] Docker swarm/expressjs clustering
 
+## Project structure
+
+~~~plain
+project_root
+	bin - helpful scripts for development
+	secrets - stores secrets such as jwt-secret, or mysql-password
+	server
+		server/models - Sequelize ORM models
+		server/controllers - ExpressJS controllers
+		server/middlewares - ExpressJS middlewares
+		server/public - Static assets, apidoc generated will the stored here
+		server/logs - Logs in production environment
+		server/seeders - Seeders to populate the database
+		server/test - Test cases
+		server/migrations - Migrations to initialize the database
+		server/config - Configuration files
+~~~
+
 ## Getting Started
 
 ### Prerequisites
