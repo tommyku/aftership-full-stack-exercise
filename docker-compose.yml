@@ -12,6 +12,7 @@ services:
       - 8080:8080
     volumes:
       - node_modules:/usr/src/app/node_modules
+    network_mode: bridge
 
   db:
     image: mysql:5.7
@@ -27,6 +28,7 @@ services:
       - mysql-database
     volumes:
       - db:/data/db
+    network_mode: bridge
 
   testdb:
     image: mysql:5.7
@@ -42,6 +44,7 @@ services:
       - mysql-database
     volumes:
       - testdb:/data/db
+    network_mode: bridge
 
 secrets:
   mysql-root-password:
