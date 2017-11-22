@@ -1,3 +1,3 @@
 module.exports = {
-  clientURL: 'https://exchange.ck2ustudio.com/'
+  clientURL: 'https://exchange.ck2ustudio.com'
 };
